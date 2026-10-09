@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
+<title>21-Day Python DSA Tracker</title>
+<style>
+:root{--bg:#0b1220;--panel:#121c2e;--panel2:#17243a;--line:#26354d;--text:#edf3ff;--muted:#9eacc4;--blue:#78a9ff;--green:#62d6a5;--amber:#f5c56b;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#162a49 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+header{padding:34px 0 22px}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:.75rem;color:var(--blue);font-weight:800}.headrow{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;letter-spacing:-.04em;margin:8px 0 12px}.sub{color:var(--muted);max-width:720px;margin:0}.tag{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);white-space:nowrap;font-size:.85rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 22px}.stat,.panel,.day{background:rgba(18,28,46,.94);border:1px solid var(--line);border-radius:17px}.stat{padding:17px}.stat small{display:block;color:var(--muted);font-size:.8rem}.stat strong{font-size:1.7rem;letter-spacing:-.03em}.progress-track{height:8px;background:#26344a;border-radius:99px;overflow:hidden;margin-top:10px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#5d91ff,#62d6a5);border-radius:99px;transition:width .25s}
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.8fr);gap:18px;align-items:start}.panel{padding:20px;margin-bottom:18px}.panel h2{font-size:1.1rem;margin:0 0 6px}.muted{color:var(--muted)}.schedule{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.schedule-item{padding:12px;background:var(--panel2);border:1px solid var(--line);border-radius:12px}.schedule-item b{display:block;font-size:.9rem}.schedule-item span{display:block;color:var(--muted);font-size:.83rem;margin-top:3px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0}.toolbar input,.toolbar select,.notes-input{background:#0c1525;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}.toolbar input{flex:1;min-width:180px}.toolbar select{max-width:100%}.week-title{font-size:1.05rem;margin:25px 0 10px}.days{display:grid;gap:10px}.day{overflow:hidden}.day-top{display:flex;gap:12px;align-items:center;padding:15px;cursor:pointer}.day-number{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:#203758;color:#bcd4ff;font-weight:800}.day-main{flex:1;min-width:0}.day-main h3{font-size:1rem;margin:0}.day-main p{margin:3px 0 0;color:var(--muted);font-size:.84rem}.day-status{font-size:.78rem;color:var(--muted);white-space:nowrap}.chevron{color:var(--muted);transition:transform .2s}.day.open .chevron{transform:rotate(180deg)}.day-body{display:none;padding:0 15px 16px;border-top:1px solid var(--line)}.day.open .day-body{display:block}.goal{color:#c3d5f2;font-size:.9rem;margin:13px 0}.task{display:flex;align-items:flex-start;gap:10px;padding:8px 0}.task input{margin-top:5px;accent-color:#69d5a7;width:16px;height:16px;flex-shrink:0}.task label{flex:1}.task.done label{text-decoration:line-through;color:#8190a8}.problem-links{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 12px}.problem-links a{display:inline-block;padding:6px 9px;background:#1b2a42;border:1px solid #2b4262;border-radius:8px;font-size:.82rem}.notes-label{display:block;color:var(--muted);font-size:.8rem;margin:10px 0 5px}.notes-input{width:100%;min-height:60px;resize:vertical;font-size:.88rem}
+.btn{border:1px solid var(--line);background:#1b2a42;color:var(--text);padding:9px 12px;border-radius:10px;font:inherit;font-weight:650;cursor:pointer}.btn:hover{border-color:#5477a8}.btn.primary{background:#477be8;border-color:#477be8;color:white}.btn.danger{color:#ffaaaa}.side-list{display:grid;gap:10px;margin-top:14px}.side-item{display:flex;gap:10px;align-items:flex-start}.side-item .dot{width:8px;height:8px;background:var(--green);border-radius:50%;margin-top:7px;flex-shrink:0}.side-item b{display:block;font-size:.9rem}.side-item span{font-size:.83rem;color:var(--muted)}.revision-row{display:grid;grid-template-columns:70px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}.revision-row:last-child{border:0}.revision-row b{color:var(--blue)}.revision-row span{font-size:.88rem;color:var(--muted)}.footer{padding:12px 0 36px;color:var(--muted);font-size:.8rem}.empty{padding:20px;color:var(--muted);text-align:center}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.headrow{display:block}.tag{display:inline-block;margin-top:15px}}
+@media(max-width:520px){.wrap{width:min(100% - 22px,1180px)}header{padding-top:24px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:1.4rem}.schedule{grid-template-columns:1fr}.day-top{padding:12px;gap:9px}.day-number{flex-basis:36px;height:36px}.day-status{display:none}.panel{padding:15px}.toolbar select{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Personal learning dashboard</div>
+  <div class="headrow">
+    <div>
+      <h1>21-Day Python DSA<br>Interview Sprint</h1>
+      <p class="sub">A realistic plan built around a 10 AM–7 PM workday, gym and dinner. Check off tasks, track revisions, and keep your progress saved in this browser.</p>
+    </div>
+    <div class="tag">10:15–11:30 PM · Daily focus</div>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="stat"><small>Overall progress</small><strong id="percent">0%</strong><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+  <div class="stat"><small>Tasks completed</small><strong id="taskCount">0/0</strong></div>
+  <div class="stat"><small>Days completed</small><strong id="dayCount">0/21</strong></div>
+  <div class="stat"><small>Current streak</small><strong id="streak">0 days</strong></div>
+</section>
+
+<div class="layout">
+<main>
+  <div class="panel">
+    <h2>Your weekday routine</h2>
+    <p class="muted">Protect your sleep. The goal is consistent practice, not late-night marathons.</p>
+    <div class="schedule">
+      <div class="schedule-item"><b>10:00–10:15 PM</b><span>Settle down and prepare</span></div>
+      <div class="schedule-item"><b>10:15–10:40 PM</b><span>Learn one concept</span></div>
+      <div class="schedule-item"><b>10:40–11:20 PM</b><span>Solve 1–2 problems</span></div>
+      <div class="schedule-item"><b>11:20–11:30 PM</b><span>Revise and log mistakes</span></div>
+    </div>
+    <p class="muted" style="font-size:.84rem;margin:13px 0 0">Optional weekend boost: use 60–120 extra minutes for a mock interview or catching up, only when your schedule allows.</p>
+  </div>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search topics or problems…">
+    <select id="filter"><option value="all">All days</option><option value="todo">Not completed</option><option value="done">Completed</option></select>
+    <button class="btn" id="expandAll">Expand all</button>
+  </div>
+  <div id="roadmap"></div>
+</main>
+
+<aside>
+  <div class="panel">
+    <h2>How to use this tracker</h2>
+    <div class="side-list">
+      <div class="side-item"><div class="dot"></div><div><b>Attempt first</b><span>Try independently for 20–25 minutes before checking hints.</span></div></div>
+      <div class="side-item"><div class="dot"></div><div><b>Learn the pattern</b><span>Write the brute-force idea, optimized approach, and complexity.</span></div></div>
+      <div class="side-item"><div class="dot"></div><div><b>Re-solve from memory</b><span>Reading a solution is not the same as being able to reproduce it.</span></div></div>
+      <div class="side-item"><div class="dot"></div><div><b>Keep sleep consistent</b><span>Stop at 11:30 PM and wind down before midnight.</span></div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Revision intervals</h2>
+    <p class="muted" style="font-size:.85rem">For each important problem, schedule a short re-attempt:</p>
+    <div class="revision-row"><b>Day 0</b><span>Solve and record the pattern.</span></div>
+    <div class="revision-row"><b>Day +1</b><span>Re-implement without notes.</span></div>
+    <div class="revision-row"><b>Day +3</b><span>Explain why the solution works.</span></div>
+    <div class="revision-row"><b>Day +7</b><span>Re-solve under time pressure.</span></div>
+    <p class="muted" style="font-size:.8rem;margin-bottom:0">Use each day's revision task to revisit problems from earlier days. Prioritize mistakes.</p>
+  </div>
+  <div class="panel">
+    <h2>Progress tools</h2>
+    <p class="muted" style="font-size:.85rem">Your checkboxes and notes save automatically in this browser on this device.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:13px">
+      <button class="btn primary" id="export">Export progress</button>
+      <button class="btn" id="importBtn">Import progress</button>
+      <button class="btn danger" id="reset">Reset tracker</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+    </div>
+    <p id="toolMessage" class="muted" style="font-size:.8rem" aria-live="polite"></p>
+  </div>
+</aside>
+</div>
+<div class="footer">Built as a standalone HTML tracker. Progress is stored locally in your browser; export a backup before changing devices or clearing browser data.</div>
+</div>
+
+<script>
+const days = [
+{day:1,week:1,topic:"Python essentials, arrays & Big-O",goal:"Get comfortable with list operations, dictionaries, sets, and complexity.",tasks:["Review list, dict, set, loops and functions","Understand O(1), O(log n), O(n), O(n log n), O(n²)","Solve Two Sum","Solve Contains Duplicate"],problems:[["Two Sum","https://leetcode.com/problems/two-sum/"],["Contains Duplicate","https://leetcode.com/problems/contains-duplicate/"]]},
+{day:2,week:1,topic:"Hash maps and frequency counting",goal:"Use a dictionary to count, group, and look up values efficiently.",tasks:["Review dictionary and set membership","Solve Valid Anagram","Solve Group Anagrams","Re-attempt Day 1's hardest problem"],problems:[["Valid Anagram","https://leetcode.com/problems/valid-anagram/"],["Group Anagrams","https://leetcode.com/problems/group-anagrams/"]]},
+{day:3,week:1,topic:"Hashing patterns",goal:"Learn how to trade extra memory for faster lookups.",tasks:["Solve Top K Frequent Elements or study its approach","Solve Product of Array Except Self","Revisit Two Sum without notes"],problems:[["Top K Frequent Elements","https://leetcode.com/problems/top-k-frequent-elements/"],["Product of Array Except Self","https://leetcode.com/problems/product-of-array-except-self/"]]},
+{day:4,week:1,topic:"Two pointers",goal:"Use pointers from both ends or move a slow pointer through an array.",tasks:["Solve Valid Palindrome","Solve Two Sum II","Attempt 3Sum; focus on duplicates and pointer movement"],problems:[["Valid Palindrome","https://leetcode.com/problems/valid-palindrome/"],["Two Sum II","https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"],["3Sum","https://leetcode.com/problems/3sum/"]]},
+{day:5,week:1,topic:"Sliding window",goal:"Maintain a moving range instead of repeatedly scanning every subarray.",tasks:["Solve Best Time to Buy and Sell Stock","Solve Longest Substring Without Repeating Characters","Write down when a window can expand or shrink"],problems:[["Best Time to Buy and Sell Stock","https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"],["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"]]},
+{day:6,week:1,topic:"Prefix sums and binary search",goal:"Practice cumulative sums and logarithmic search on sorted data.",tasks:["Learn prefix sums and solve a small example","Solve Maximum Subarray","Implement Binary Search from memory","If time permits, attempt Search Insert Position"],problems:[["Maximum Subarray","https://leetcode.com/problems/maximum-subarray/"],["Binary Search","https://leetcode.com/problems/binary-search/"],["Search Insert Position","https://leetcode.com/problems/search-insert-position/"]]},
+{day:7,week:1,topic:"Week 1 review and mini-assessment",goal:"Check whether you can recognize the first week's patterns without hints.",tasks:["Re-solve Two Sum or Valid Anagram","Re-solve one two-pointer or sliding-window problem","Re-solve Binary Search","Do a 30–45 minute mixed timed practice; log mistakes"],problems:[["Two Sum","https://leetcode.com/problems/two-sum/"],["Longest Substring","https://leetcode.com/problems/longest-substring-without-repeating-characters/"],["Binary Search","https://leetcode.com/problems/binary-search/"]]},
+{day:8,week:2,topic:"Stacks and monotonic stacks",goal:"Recognize last-in-first-out patterns and matching-pair problems.",tasks:["Solve Valid Parentheses","Learn the stack pattern for Min Stack","Attempt Daily Temperatures or study the monotonic-stack idea"],problems:[["Valid Parentheses","https://leetcode.com/problems/valid-parentheses/"],["Min Stack","https://leetcode.com/problems/min-stack/"],["Daily Temperatures","https://leetcode.com/problems/daily-temperatures/"]]},
+{day:9,week:2,topic:"Queues and linked-list basics",goal:"Understand queue behavior, pointers, and cycle detection.",tasks:["Learn collections.deque and why list.pop(0) is inefficient","Solve Implement Queue using Stacks","Solve Reverse Linked List","Solve Linked List Cycle"],problems:[["Implement Queue using Stacks","https://leetcode.com/problems/implement-queue-using-stacks/"],["Reverse Linked List","https://leetcode.com/problems/reverse-linked-list/"],["Linked List Cycle","https://leetcode.com/problems/linked-list-cycle/"]]},
+{day:10,week:2,topic:"Linked-list patterns",goal:"Practice dummy nodes, fast/slow pointers, and pointer rewiring.",tasks:["Solve Merge Two Sorted Lists","Attempt Remove Nth Node From End of List","Trace pointer changes on paper before coding"],problems:[["Merge Two Sorted Lists","https://leetcode.com/problems/merge-two-sorted-lists/"],["Remove Nth Node From End","https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]]},
+{day:11,week:2,topic:"Recursion and backtracking",goal:"Define a base case, recursive choices, and when to undo a choice.",tasks:["Write a simple recursive function and identify its base case","Solve Subsets or study its recursion tree","Attempt Combination Sum if time permits"],problems:[["Subsets","https://leetcode.com/problems/subsets/"],["Combination Sum","https://leetcode.com/problems/combination-sum/"]]},
+{day:12,week:2,topic:"Binary tree fundamentals",goal:"Understand tree nodes and recursive DFS traversals.",tasks:["Learn preorder, inorder, and postorder","Solve Maximum Depth of Binary Tree","Solve Invert Binary Tree","Explain the base case in each recursive function"],problems:[["Maximum Depth of Binary Tree","https://leetcode.com/problems/maximum-depth-of-binary-tree/"],["Invert Binary Tree","https://leetcode.com/problems/invert-binary-tree/"],["Same Tree","https://leetcode.com/problems/same-tree/"]]},
+{day:13,week:2,topic:"Tree BFS, DFS and BSTs",goal:"Choose between depth-first and level-order traversal.",tasks:["Solve Binary Tree Level Order Traversal","Learn BST ordering rules and solve Validate BST","Review Lowest Common Ancestor of a BST if time permits"],problems:[["Level Order Traversal","https://leetcode.com/problems/binary-tree-level-order-traversal/"],["Validate BST","https://leetcode.com/problems/validate-binary-search-tree/"],["LCA of a BST","https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"]]},
+{day:14,week:2,topic:"Heaps and week 2 review",goal:"Use a priority queue for repeatedly retrieving the smallest or largest item.",tasks:["Learn heapq and min-heap behavior","Solve Kth Largest Element in an Array or study heap and quickselect trade-offs","Re-solve one stack and one tree problem"],problems:[["Kth Largest Element","https://leetcode.com/problems/kth-largest-element-in-an-array/"],["Last Stone Weight","https://leetcode.com/problems/last-stone-weight/"]]},
+{day:15,week:3,topic:"Graphs: DFS and BFS",goal:"Represent a graph and traverse connected cells or nodes.",tasks:["Learn adjacency lists and visited sets","Solve Flood Fill","Solve Number of Islands; focus on visited handling"],problems:[["Flood Fill","https://leetcode.com/problems/flood-fill/"],["Number of Islands","https://leetcode.com/problems/number-of-islands/"],["Max Area of Island","https://leetcode.com/problems/max-area-of-island/"]]},
+{day:16,week:3,topic:"Graph BFS and dependencies",goal:"Use a queue for shortest-step exploration and detect cycles in dependencies.",tasks:["Solve Rotting Oranges or trace multi-source BFS","Understand graph cloning and visited maps","Learn the core idea behind Course Schedule / topological sorting"],problems:[["Rotting Oranges","https://leetcode.com/problems/rotting-oranges/"],["Clone Graph","https://leetcode.com/problems/clone-graph/"],["Course Schedule","https://leetcode.com/problems/course-schedule/"]]},
+{day:17,week:3,topic:"Greedy and intervals",goal:"Sort intervals or make a locally optimal choice when justified.",tasks:["Solve Merge Intervals","Study why sorting helps interval problems","Attempt Jump Game and explain the greedy invariant"],problems:[["Merge Intervals","https://leetcode.com/problems/merge-intervals/"],["Jump Game","https://leetcode.com/problems/jump-game/"]]},
+{day:18,week:3,topic:"Dynamic programming foundations",goal:"Identify overlapping subproblems and define a state and recurrence.",tasks:["Solve Climbing Stairs using memoization and tabulation","Solve Min Cost Climbing Stairs","Write what dp[i] means before coding"],problems:[["Climbing Stairs","https://leetcode.com/problems/climbing-stairs/"],["Min Cost Climbing Stairs","https://leetcode.com/problems/min-cost-climbing-stairs/"],["House Robber","https://leetcode.com/problems/house-robber/"]]},
+{day:19,week:3,topic:"More introductory DP",goal:"Practice one-dimensional DP and grid-state transitions.",tasks:["Solve House Robber without looking at notes","Study Coin Change; define unreachable states clearly","Attempt Unique Paths if time permits"],problems:[["House Robber","https://leetcode.com/problems/house-robber/"],["Coin Change","https://leetcode.com/problems/coin-change/"],["Unique Paths","https://leetcode.com/problems/unique-paths/"]]},
+{day:20,week:3,topic:"Mixed interview practice",goal:"Recognize patterns without being told which technique to use.",tasks:["Solve Container With Most Water under a time limit","Solve Search a 2D Matrix or Koko Eating Bananas","Explain complexity and test edge cases for each"],problems:[["Container With Most Water","https://leetcode.com/problems/container-with-most-water/"],["Search a 2D Matrix","https://leetcode.com/problems/search-a-2d-matrix/"],["Koko Eating Bananas","https://leetcode.com/problems/koko-eating-bananas/"]]},
+{day:21,week:3,topic:"Mock interview and final review",goal:"Practice communicating clearly and identify what to study next.",tasks:["Complete one 35–45 minute mock interview","Re-solve 2 previously missed problems without notes","Review complexity, edge cases, and your mistake log","Choose the next 2-week plan based on weak topics"],problems:[["LeetCode problem set","https://leetcode.com/problemset/"]]}
+];
+
+const storageKey = "python-dsa-21day-tracker-v1";
+let state = loadState();
+function loadState(){try{return JSON.parse(localStorage.getItem(storageKey))||{checks:{},notes:{},dates:{}}}catch(e){return {checks:{},notes:{},dates:{}}}}
+function save(){localStorage.setItem(storageKey,JSON.stringify(state));renderStats()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function taskKey(day,index){return `d${day}-t${index}`}
+function isChecked(day,index){return !!state.checks[taskKey(day,index)]}
+function dayDone(day){return days.find(d=>d.day===day).tasks.every((_,i)=>isChecked(day,i))}
+function renderStats(){
+ const all=days.reduce((n,d)=>n+d.tasks.length,0);
+ const done=Object.values(state.checks).filter(Boolean).length;
+ const daysDone=days.filter(d=>dayDone(d.day)).length;
+ const pct=Math.round(done/all*100);
+ document.getElementById("percent").textContent=pct+"%";
+ document.getElementById("progressFill").style.width=pct+"%";
+ document.getElementById("taskCount").textContent=`${done}/${all}`;
+ document.getElementById("dayCount").textContent=`${daysDone}/21`;
+ let streak=0;
+ for(let i=21;i>=1;i--){if(dayDone(i))streak++;else break}
+ document.getElementById("streak").textContent=streak+" days";
+}
+function render(){
+ const query=document.getElementById("search").value.trim().toLowerCase();
+ const filter=document.getElementById("filter").value;
+ const root=document.getElementById("roadmap");root.innerHTML="";
+ [1,2,3].forEach(week=>{
+  const weekDays=days.filter(d=>d.week===week).filter(d=>{
+   const matches=(d.topic+" "+d.goal+" "+d.tasks.join(" ")+" "+d.problems.map(p=>p[0]).join(" ")).toLowerCase().includes(query);
+   const done=dayDone(d.day);
+   return matches&&(filter==="all"||(filter==="done"&&done)||(filter==="todo"&&!done));
+  });
+  if(!weekDays.length)return;
+  const h=document.createElement("h2");h.className="week-title";h.textContent=["","WEEK 1 · CORE PATTERNS","WEEK 2 · DATA STRUCTURES","WEEK 3 · INTERVIEW PRACTICE"][week];root.appendChild(h);
+  const group=document.createElement("div");group.className="days";
+  weekDays.forEach(d=>{
+   const card=document.createElement("article");card.className="day";card.id="day-"+d.day;
+   const doneCount=d.tasks.filter((_,i)=>isChecked(d.day,i)).length;
+   card.innerHTML=`<div class="day-top" role="button" tabindex="0" aria-expanded="false">
+    <div class="day-number">${String(d.day).padStart(2,"0")}</div>
+    <div class="day-main"><h3>${esc(d.topic)}</h3><p>${doneCount}/${d.tasks.length} tasks completed</p></div>
+    <div class="day-status">${dayDone(d.day)?"Completed":"In progress"}</div><div class="chevron">⌄</div></div>
+    <div class="day-body"><p class="goal">${esc(d.goal)}</p>
+    <div class="tasks">${d.tasks.map((t,i)=>`<div class="task ${isChecked(d.day,i)?"done":""}"><input type="checkbox" id="${taskKey(d.day,i)}" data-day="${d.day}" data-index="${i}" ${isChecked(d.day,i)?"checked":""}><label for="${taskKey(d.day,i)}">${esc(t)}</label></div>`).join("")}</div>
+    <div class="problem-links">${d.problems.map(p=>`<a href="${p[1]}" target="_blank" rel="noopener noreferrer">${esc(p[0])} ↗</a>`).join("")}</div>
+    <label class="notes-label" for="note-${d.day}">Notes / mistakes / complexity</label><textarea class="notes-input" id="note-${d.day}" data-note-day="${d.day}" placeholder="What was difficult? What pattern did you learn?">${esc(state.notes[d.day]||"")}</textarea>
+    </div>`;
+   const top=card.querySelector(".day-top");
+   const toggle=()=>{card.classList.toggle("open");top.setAttribute("aria-expanded",card.classList.contains("open")?"true":"false")};
+   top.addEventListener("click",toggle);top.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle()}});
+   group.appendChild(card);
+  });
+  root.appendChild(group);
+ });
+ if(!root.children.length)root.innerHTML='<div class="panel empty">No days match your search or filter.</div>';
+ root.querySelectorAll('input[type="checkbox"][data-day]').forEach(el=>el.addEventListener("change",e=>{
+  const d=+e.target.dataset.day,i=+e.target.dataset.index;state.checks[taskKey(d,i)]=e.target.checked;
+  if(dayDone(d))state.dates[d]=new Date().toISOString().slice(0,10);else delete state.dates[d];
+  save();const open=document.getElementById("day-"+d);const wasOpen=open?.classList.contains("open");render();const fresh=document.getElementById("day-"+d);if(fresh&&wasOpen){fresh.classList.add("open");fresh.querySelector(".day-top").setAttribute("aria-expanded","true")}
+ }));
+ root.querySelectorAll("textarea[data-note-day]").forEach(el=>el.addEventListener("change",e=>{state.notes[e.target.dataset.noteDay]=e.target.value;save()}));
+ renderStats();
+}
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("filter").addEventListener("change",render);
+let expanded=false;
+document.getElementById("expandAll").addEventListener("click",()=>{
+ expanded=!expanded;document.getElementById("expandAll").textContent=expanded?"Collapse all":"Expand all";
+ document.querySelectorAll(".day").forEach(c=>{c.classList.toggle("open",expanded);c.querySelector(".day-top").setAttribute("aria-expanded",expanded?"true":"false")});
+});
+document.getElementById("export").addEventListener("click",()=>{
+ const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="python-dsa-progress.json";a.click();URL.revokeObjectURL(a.href);
+ document.getElementById("toolMessage").textContent="Progress exported. Keep the JSON file as a backup.";
+});
+document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change",async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{const data=JSON.parse(await file.text());const incoming=data.state||data;if(!incoming.checks||!incoming.notes)throw Error("Invalid tracker backup");state=incoming;save();render();document.getElementById("toolMessage").textContent="Progress imported successfully."}
+ catch(err){document.getElementById("toolMessage").textContent="Could not import that file. Choose a valid tracker JSON backup."}
+ e.target.value="";
+});
+document.getElementById("reset").addEventListener("click",()=>{
+ if(confirm("Reset all checkboxes and notes? Export a backup first if you want to keep your progress.")){state={checks:{},notes:{},dates:{}};save();render();document.getElementById("toolMessage").textContent="Tracker reset."}
+});
+render();
+</script>
+</body>
+</html>
